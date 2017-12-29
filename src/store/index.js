@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
+    appLoader: true,
     user: null
   },
   mutations: {
     setUser (state, payload) {
       state.user = payload
+    },
+    setAppLoader (state, payload) {
+      state.appLoader = payload
     }
   },
   actions: {
@@ -22,6 +26,9 @@ export const store = new Vuex.Store({
   getters: {
     user (state) {
       return state.user
+    },
+    appLoader (state) {
+      return state.appLoader
     }
   }
 })

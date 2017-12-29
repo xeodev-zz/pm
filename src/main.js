@@ -60,18 +60,19 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-firebase.auth().onAuthStateChanged((user) => {
-  console.log('Hello')
-  new Vue({
-    el: '#app',
-    router,
-    store,
-    render: h => h(App),
-    created () {
+
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App),
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
       console.log('Hello DESDE VUE')
       if (user) {
         this.$store.dispatch('autoSignIn', user)
+        this.$store.commit('setAppLoader', false)
       }
-    }
-  })
+    })
+  }
 })
