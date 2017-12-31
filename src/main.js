@@ -68,7 +68,7 @@ new Vue({
   render: h => h(App),
   created () {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log('Hello DESDE VUE')
+      console.log('Hello DESDE VUE de mi casa')
       if (user) {
         this.$store.dispatch('autoSignIn', user)
         this.$store.commit('setAppLoader', false)
