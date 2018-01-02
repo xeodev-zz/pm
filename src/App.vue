@@ -1,38 +1,13 @@
 <template>
   <v-app>
-    <template v-if="!appLoader">
+    <template v-if="appLoader">
       <v-content>
         <v-progress-circular indeterminate v-bind:size="70" v-bind:width="7" color="purple"></v-progress-circular>
       </v-content>
     </template>
     <template v-else>
-      <v-navigation-drawer
-        temporary
-        v-model="drawer"
-        absolute
-        v-if="user != null"
-      >
-        <v-list class="pa-1">
-          <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg" />
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>John Leider</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-        <v-list class="pt-0" dense>
-          <v-divider></v-divider>
-          <v-list-tile v-for="item in items" :key="item.title" @click="">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
+      <v-navigation-drawer temporary v-model="drawer" absolute v-if="user != null">
+        <user-menu></user-menu>
       </v-navigation-drawer>
       <v-toolbar fixed app dark color="primary">
         <v-layout row class="align-center mx-0" :class="drawerJustify">
@@ -45,38 +20,7 @@
               <v-icon>more_vert</v-icon>
             </v-btn>
             <v-card>
-              <v-list>
-                <v-list-tile avatar>
-                  <v-list-tile-avatar>
-                    <img src="https://vuetifyjs.com/static/doc-images/john.jpg">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>John Leider</v-list-tile-title>
-                    <v-list-tile-sub-title>Founder of Vuetify.js</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-btn icon :class="'red--text'">
-                      <v-icon>favorite</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </v-list>
-              <v-divider></v-divider>
-              <v-list>
-                <v-list-tile @click="redirectTo('Profile')">
-                  <v-icon class="mr-2">person</v-icon>
-                  <v-list-tile-title>Mi Perfil</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="redirectTo('MyProjects')">
-                  <v-icon class="mr-2">view_comfy</v-icon>
-                  <v-list-tile-title>Mis Proyectos</v-list-tile-title>
-                </v-list-tile>
-                <v-divider></v-divider>
-                <v-list-tile @click="signOut">
-                  <v-icon class="mr-2">keyboard_tab</v-icon>
-                  <v-list-tile-title>Cerrar Sesión</v-list-tile-title>
-                </v-list-tile>
-              </v-list>
+              <user-menu></user-menu>
             </v-card>
           </v-menu>
         </v-layout>
@@ -92,16 +36,13 @@
 </template>
 
 <script>
-  import * as firebase from 'firebase'
+  import UserMenu from './components/MenuLists/UserMenu'
 
   export default {
+    components: { UserMenu },
     data () {
       return {
         drawer: false,
-        items: [{
-          icon: 'bubble_chart',
-          title: 'Inspire'
-        }],
         title: 'Proyectos Puente Piedra'
       }
     },
@@ -117,12 +58,6 @@
       }
     },
     methods: {
-      signOut () {
-        firebase.auth().signOut().then(() => {
-          this.$store.commit('setUser', null)
-          this.$router.push({name: 'Signin'})
-        })
-      },
       redirectTo (route) {
         this.$router.push({name: route})
       }
