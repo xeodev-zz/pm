@@ -61,18 +61,24 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App),
-  created () {
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log('Hello DESDE VUE de mi casa')
-      if (user) {
-        this.$store.dispatch('autoSignIn', user)
-        this.$store.commit('setAppLoader', false)
-      }
-    })
-  }
+let UserIsAuthenticated = new Promise((resolve) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      store.dispatch('autoSignIn', user).then(() => {
+        resolve()
+      })
+    } else {
+      resolve()
+    }
+  })
+})
+
+UserIsAuthenticated.then(() => {
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    render: h => h(App),
+    created () {}
+  })
 })
