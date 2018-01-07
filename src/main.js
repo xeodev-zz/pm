@@ -60,16 +60,17 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-
+let firstInit = true
 let UserIsAuthenticated = new Promise((resolve) => {
   firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
+    if (user && firstInit) {
       store.dispatch('autoSignIn', user).then(() => {
         resolve()
       })
     } else {
       resolve()
     }
+    firstInit = false
   })
 })
 

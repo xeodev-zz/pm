@@ -94,9 +94,11 @@
         }
         this.formSettings.isSubmiting = true
         firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
-          .then(success => {
-            this.formSettings.isSubmiting = false
-            this.$router.push({name: 'Projects'})
+          .then(user => {
+            this.$store.dispatch('autoSignIn', user).then(() => {
+              this.formSettings.isSubmiting = false
+              this.$router.push({name: 'Projects'})
+            })
           })
           .catch(error => {
             this.formErrors.error = true

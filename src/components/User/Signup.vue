@@ -22,6 +22,22 @@
             </v-alert>
             <v-form v-model="formSettings.valid" ref="form" lazy-validation @submit.prevent="onSubmit">
               <v-text-field
+                label="Nombres"
+                name="pm-name"
+                v-model="form.name"
+                :rules="formSettings.nameRules"
+                class="input-group--focused"
+                required
+              ></v-text-field>
+              <v-text-field
+                label="Apellidos"
+                name="pm-lastname"
+                v-model="form.lastName"
+                :rules="formSettings.lastNameRules"
+                class="input-group--focused"
+                required
+              ></v-text-field>
+              <v-text-field
                 label="Email"
                 name="pm-email"
                 v-model="form.email"
@@ -63,6 +79,8 @@
     data () {
       return {
         form: {
+          name: '',
+          lastName: '',
           email: '',
           password: ''
         },
@@ -81,6 +99,12 @@
           emailRules: [
             (v) => !!v || 'Email es requerido.',
             v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/.test(v) || 'El Email no es válido.'
+          ],
+          nameRules: [
+            (v) => !!v || 'Nombres es requerido.'
+          ],
+          lastNameRules: [
+            (v) => !!v || 'Apellidos es requerido.'
           ]
         },
         texts: {
@@ -98,13 +122,25 @@
         this.formSettings.isSubmiting = true
         firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
           .then(user => {
-            console.log(user)
-            this.formSettings.isSubmiting = false
             let userData = {
-              name: 'Pepito',
-              email: user.email
+              uid: user.uid,
+              name: this.form.name,
+              lastName: this.form.lastName,
+              email: user.email,
+              DNI: '',
+              address: '',
+              birthday: '',
+              gender: '',
+              photoURL: 'https://firebasestorage.googleapis.com/v0/b/proyectos-puente-piedra.appspot.com/o/users%2Fdefault-user.jpg?alt=media&token=892e70b5-f9a6-4564-9323-cfe4f39a86f8',
+              position: 'Miembro del Partido',
+              profession: '',
+              isCompleted: false
             }
             db.ref('users/' + user.uid).set(userData)
+            this.$store.dispatch('autoSignIn', user).then(() => {
+              this.formSettings.isSubmiting = false
+              this.$router.push({name: 'Projects'})
+            })
           })
           .catch(error => {
             this.formErrors.error = true

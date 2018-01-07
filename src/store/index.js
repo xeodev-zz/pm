@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { db } from '../database/db'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    appLoader: true,
+    appLoader: false,
     user: null
   },
   mutations: {
@@ -18,8 +19,13 @@ export const store = new Vuex.Store({
   },
   actions: {
     autoSignIn ({commit}, payload) {
-      commit('setUser', {
-        id: payload.uid
+      return new Promise((resolve) => {
+        db.ref('users/' + payload.uid).on('value', (snapshot) => {
+          let user = snapshot.val()
+          console.log(user)
+          commit('setUser', user)
+          resolve()
+        })
       })
     }
   },
