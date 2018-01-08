@@ -1,6 +1,21 @@
 <template>
-  <div>Mi Perfil ha cambiado nuevamente y ahora es definitivo</div>
+  <div>
+    {{ user.name }} y el nombre del form es {{ form.name }} {{ form.lastName }}
+  </div>
 </template>
 <script>
-  export default {}
+  import { mapState } from 'vuex'
+  export default {
+    data () {
+      return {
+        form: {}
+      }
+    },
+    created () {
+      this.form = this.user
+    },
+    computed: {
+      ...mapState(['user'])
+    }
+  }
 </script>

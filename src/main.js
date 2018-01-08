@@ -79,7 +79,6 @@ UserIsAuthenticated.then(() => {
     el: '#app',
     router,
     store,
-    render: h => h(App),
-    created () {}
+    render: h => h(App)
   })
 })

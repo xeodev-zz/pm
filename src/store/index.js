@@ -22,7 +22,6 @@ export const store = new Vuex.Store({
       return new Promise((resolve) => {
         db.ref('users/' + payload.uid).on('value', (snapshot) => {
           let user = snapshot.val()
-          console.log(user)
           commit('setUser', user)
           resolve()
         })
