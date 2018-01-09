@@ -1,6 +1,7 @@
 <template>
   <div>
     {{ user.name }} y el nombre del form es {{ form.name }} {{ form.lastName }}
+    <div>Batalla del mar de coral xD</div>
   </div>
 </template>
 <script>
