@@ -14,11 +14,16 @@ import {
   VCard,
   VForm,
   VTextField,
+  VSelect,
   VDivider,
   VAlert,
   VProgressCircular,
-  VMenu
+  VMenu,
+  VAvatar,
+  VDialog,
+  VDatePicker
 } from 'vuetify'
+import ImageUploader from './components/Global/ImageUploader'
 import '../node_modules/vuetify/src/stylus/app.styl'
 
 import App from './App'
@@ -41,10 +46,14 @@ Vue.use(Vuetify, {
     VCard,
     VForm,
     VTextField,
+    VSelect,
     VDivider,
     VAlert,
     VProgressCircular,
-    VMenu
+    VMenu,
+    VAvatar,
+    VDialog,
+    VDatePicker
   },
   theme: {
     primary: '#9c27b0',
@@ -56,6 +65,8 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 })
+
+Vue.component('image-uploader', ImageUploader)
 
 Vue.config.productionTip = false
 

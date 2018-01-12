@@ -134,12 +134,14 @@
               photoURL: 'https://firebasestorage.googleapis.com/v0/b/proyectos-puente-piedra.appspot.com/o/users%2Fdefault-user.jpg?alt=media&token=892e70b5-f9a6-4564-9323-cfe4f39a86f8',
               position: 'Miembro del Partido',
               profession: '',
+              isValidate: false,
+              isAdmin: false,
               isCompleted: false
             }
             db.ref('users/' + user.uid).set(userData)
             this.$store.dispatch('autoSignIn', user).then(() => {
               this.formSettings.isSubmiting = false
-              this.$router.push({name: 'Projects'})
+              this.$router.push({name: 'Profile'})
             })
           })
           .catch(error => {

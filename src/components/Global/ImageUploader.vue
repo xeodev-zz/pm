@@ -1,0 +1,71 @@
+<template>
+  <div>
+    <v-btn :loading="isLoading" :disabled="isLoading" color="primary" @click="onPickFile">
+      {{ text }}
+      <v-icon right dark>cloud_upload</v-icon>
+    </v-btn>
+    <input type="file" style="display: none" ref="fileInput" :accept="accept" @change="onFilePicked">
+  </div>
+</template>
+<script>
+  import { storage } from '../../database/db'
+  import * as firebase from 'firebase'
+
+  export default {
+    props: {
+      text: {
+        type: String,
+        default: 'Subir'
+      },
+      accept: {
+        type: String,
+        default: '*'
+      },
+      storageRoute: {
+        type: String,
+        default: null
+      },
+      onComplete: {
+        type: Function,
+        required: true
+      }
+    },
+    data () {
+      return {
+        isLoading: false
+      }
+    },
+    methods: {
+      onPickFile () {
+        this.$refs.fileInput.click()
+      },
+      onFilePicked (event) {
+        let self = this
+        const files = event.target.files
+        let file = files[0]
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+
+        let uploadTask = storage.ref(this.storageRoute).put(file)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+          function (snapshot) {
+            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('Upload is ' + progress + '% done')
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused')
+                break
+              case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running')
+                break
+            }
+          }, function (error) {
+            console.log('no se pudo cargar' + error)
+          }, function () {
+            let fileUploaded = uploadTask.snapshot
+            self.onComplete(fileUploaded)
+          })
+      }
+    }
+  }
+</script>
