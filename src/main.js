@@ -21,7 +21,8 @@ import {
   VMenu,
   VAvatar,
   VDialog,
-  VDatePicker
+  VDatePicker,
+  VSnackbar
 } from 'vuetify'
 import ImageUploader from './components/Global/ImageUploader'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -53,7 +54,8 @@ Vue.use(Vuetify, {
     VMenu,
     VAvatar,
     VDialog,
-    VDatePicker
+    VDatePicker,
+    VSnackbar
   },
   theme: {
     primary: '#9c27b0',

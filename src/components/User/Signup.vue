@@ -141,6 +141,7 @@
             db.ref('users/' + user.uid).set(userData)
             this.$store.dispatch('autoSignIn', user).then(() => {
               this.formSettings.isSubmiting = false
+              this.$store.dispatch('snackbar', { text: '¡Tu cuenta ha sido creada!' })
               this.$router.push({name: 'Profile'})
             })
           })

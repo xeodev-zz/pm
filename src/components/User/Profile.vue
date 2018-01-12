@@ -88,7 +88,6 @@
           address: null,
           birthday: null,
           gender: null,
-          photoURL: null,
           position: null,
           profession: null
         },
@@ -131,7 +130,7 @@
           gender: 'Género',
           photoURL: 'Photo',
           position: 'Cargo',
-          profession: 'Profesión',
+          profession: 'Profesión/Ocupación',
           title: 'Tu Información Personal',
           select: 'Seleccionar',
           cancel: 'Cancelar',
@@ -159,7 +158,6 @@
       this.form.address = this.user.address
       this.form.birthday = this.user.birthday
       this.form.gender = this.user.gender
-      this.form.photoURL = this.user.photoURL
       this.form.position = this.user.position
       this.form.profession = this.user.profession
     },
@@ -177,6 +175,7 @@
         this.settings.isSubmiting = true
         db.ref('/users/' + this.user.uid).update(this.form).then(() => {
           this.settings.isSubmiting = false
+          this.$store.dispatch('snackbar', { text: '¡Tus datos han sido actualizados!' })
         })
       },
       uploadPhoto (photo) {
@@ -184,6 +183,7 @@
         db.ref('/users/' + this.user.uid).update({ photoURL: photo.downloadURL }).then(() => {
           console.log('cambie todo')
         })
+        this.$store.dispatch('snackbar', { text: '¡Photo de perfil fue actualizado!' })
       }
     }
   }

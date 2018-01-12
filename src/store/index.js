@@ -7,7 +7,16 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     appLoader: false,
-    user: null
+    user: null,
+    snackbar: {
+      active: false,
+      y: 'top',
+      x: 'right',
+      color: '',
+      mode: '',
+      timeout: 5000,
+      text: ''
+    }
   },
   mutations: {
     setUser (state, payload) {
@@ -15,6 +24,15 @@ export const store = new Vuex.Store({
     },
     setAppLoader (state, payload) {
       state.appLoader = payload
+    },
+    setSnackbar (state, payload) {
+      state.snackbar.active = payload.active || true
+      state.snackbar.y = payload.y || 'top'
+      state.snackbar.x = payload.x || 'right'
+      state.snackbar.color = payload.color || ''
+      state.snackbar.mode = window.innerWidth < 767 ? 'vertical' : ''
+      state.snackbar.timeout = payload.timeout || 5000
+      state.snackbar.text = payload.text || '¡Acción completada!'
     }
   },
   actions: {
@@ -26,6 +44,9 @@ export const store = new Vuex.Store({
           resolve()
         })
       })
+    },
+    snackbar ({commit}, payload) {
+      commit('setSnackbar', payload)
     }
   },
   getters: {

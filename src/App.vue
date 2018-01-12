@@ -32,10 +32,25 @@
         <span>&copy; Partido Morado</span>
       </v-footer>
     </template>
+    <v-snackbar
+      :timeout="snackbar.timeout"
+      :top="snackbar.y === 'top'"
+      :bottom="snackbar.y === 'bottom'"
+      :right="snackbar.x === 'right'"
+      :left="snackbar.x === 'left'"
+      :color="snackbar.color"
+      :multi-line="snackbar.mode === 'multi-line'"
+      :vertical="snackbar.mode === 'vertical'"
+      v-model="snackbar.active"
+    >
+      {{ snackbar.text }}
+      <v-btn flat color="white" @click.native="snackbar.active = false">Cerrar</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import UserMenu from './components/MenuLists/UserMenu'
 
   export default {
@@ -47,12 +62,7 @@
       }
     },
     computed: {
-      user () {
-        return this.$store.getters.user
-      },
-      appLoader () {
-        return this.$store.getters.appLoader
-      },
+      ...mapState(['user', 'appLoader', 'snackbar']),
       drawerJustify () {
         return (this.user != null) ? 'justify-space-between' : 'justify-center'
       }

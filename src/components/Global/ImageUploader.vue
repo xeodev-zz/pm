@@ -27,7 +27,7 @@
       },
       onComplete: {
         type: Function,
-        required: true
+        default: () => {}
       }
     },
     data () {
@@ -41,6 +41,7 @@
       },
       onFilePicked (event) {
         let self = this
+        self.isLoading = true
         const files = event.target.files
         let file = files[0]
         const fileReader = new FileReader()
@@ -63,6 +64,7 @@
             console.log('no se pudo cargar' + error)
           }, function () {
             let fileUploaded = uploadTask.snapshot
+            self.isLoading = false
             self.onComplete(fileUploaded)
           })
       }
