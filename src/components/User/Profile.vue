@@ -67,7 +67,7 @@
             <v-avatar :tile="false" :size="settings.avatarSize" class="grey lighten-4">
               <img :src="user.photoURL" :alt="user.name">
             </v-avatar>
-            <image-uploader :storage-route="storageRoute" :on-complete="uploadPhoto"></image-uploader>
+            <image-uploader :storage-route="storageRoute" :on-complete="uploadPhoto" accept="image/*"></image-uploader>
           </v-card-text>
         </v-card>
       </v-flex>

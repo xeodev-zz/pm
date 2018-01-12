@@ -6,7 +6,7 @@
       </v-content>
     </template>
     <template v-else>
-      <v-navigation-drawer temporary v-model="drawer" absolute v-if="user != null">
+      <v-navigation-drawer temporary fixed v-model="drawer" v-if="user != null">
         <user-menu></user-menu>
       </v-navigation-drawer>
       <v-toolbar fixed app dark color="primary">
@@ -15,7 +15,7 @@
           <v-toolbar-title class="hidden-md-and-up mx-0"><img src="/static/logo.png" style="display: block"/></v-toolbar-title>
           <v-toolbar-title v-text="title" class="hidden-sm-and-down"></v-toolbar-title>
           <v-spacer  class="hidden-sm-and-down"></v-spacer>
-          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-if="user != null">
+          <v-menu :close-on-content-click="true" :nudge-width="200" v-if="user != null">
             <v-btn icon slot="activator" dark>
               <v-icon>more_vert</v-icon>
             </v-btn>
