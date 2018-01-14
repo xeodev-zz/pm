@@ -28,7 +28,7 @@
       <v-content>
         <router-view></router-view>
       </v-content>
-      <v-footer app class="justify-center">
+      <v-footer app absolute class="justify-center">
         <span>&copy; Partido Morado</span>
       </v-footer>
     </template>
@@ -44,7 +44,7 @@
       v-model="snackbar.active"
     >
       {{ snackbar.text }}
-      <v-btn flat color="white" @click.native="snackbar.active = false">Cerrar</v-btn>
+      <v-btn flat :color="snackbar.closeColor" @click.native="snackbar.active = false">Cerrar</v-btn>
     </v-snackbar>
   </v-app>
 </template>

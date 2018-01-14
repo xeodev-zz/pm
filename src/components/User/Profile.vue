@@ -62,12 +62,12 @@
         </v-card>
       </v-flex>
       <v-flex xs12 lg4 xl3 text-xs-center>
-        <v-card>
+        <v-card style="height: 100%">
           <v-card-text>
             <v-avatar :tile="false" :size="settings.avatarSize" class="grey lighten-4">
               <img :src="user.photoURL" :alt="user.name">
             </v-avatar>
-            <image-uploader :storage-route="storageRoute" :on-complete="uploadPhoto" accept="image/*"></image-uploader>
+            <image-uploader :storage-route="storageRoute" :on-complete="uploadPhoto" text="Subir Photo" accept="image/*" class="justify-center"></image-uploader>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -179,11 +179,9 @@
         })
       },
       uploadPhoto (photo) {
-        console.log(photo)
         db.ref('/users/' + this.user.uid).update({ photoURL: photo.downloadURL }).then(() => {
-          console.log('cambie todo')
+          this.$store.dispatch('snackbar', { text: '¡Photo de perfil fue actualizado!' })
         })
-        this.$store.dispatch('snackbar', { text: '¡Photo de perfil fue actualizado!' })
       }
     }
   }

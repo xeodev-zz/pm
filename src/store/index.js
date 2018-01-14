@@ -14,8 +14,9 @@ export const store = new Vuex.Store({
       x: 'right',
       color: '',
       mode: '',
-      timeout: 5000,
-      text: ''
+      timeout: 3000,
+      text: '',
+      closeColor: 'primary'
     }
   },
   mutations: {
@@ -31,8 +32,9 @@ export const store = new Vuex.Store({
       state.snackbar.x = payload.x || 'right'
       state.snackbar.color = payload.color || ''
       state.snackbar.mode = window.innerWidth < 767 ? 'vertical' : ''
-      state.snackbar.timeout = payload.timeout || 5000
+      state.snackbar.timeout = payload.timeout || 3000
       state.snackbar.text = payload.text || '¡Acción completada!'
+      state.snackbar.closeColor = payload.color ? 'white' : 'primary'
     }
   },
   actions: {

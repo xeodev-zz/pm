@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <v-layout row wrap>
     <v-btn :loading="isLoading" :disabled="isLoading" color="primary" @click="onPickFile">
       {{ text }}
       <v-icon right dark>cloud_upload</v-icon>
     </v-btn>
+    <v-progress-circular v-bind:size="45" v-bind:width="5" v-bind:rotate="-90" v-bind:value="progressPercentage" color="primary" v-if="isLoading">
+      {{ progressPercentage }}%
+    </v-progress-circular>
     <input type="file" style="display: none" ref="fileInput" :accept="accept" @change="onFilePicked">
-  </div>
+  </v-layout>
 </template>
 <script>
   import { storage } from '../../database/db'
@@ -32,7 +35,8 @@
     },
     data () {
       return {
-        isLoading: false
+        isLoading: false,
+        progressPercentage: 0
       }
     },
     methods: {
@@ -51,20 +55,22 @@
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
           function (snapshot) {
             let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            console.log('Upload is ' + progress + '% done')
+            self.progressPercentage = parseInt(progress)
             switch (snapshot.state) {
               case firebase.storage.TaskState.PAUSED:
-                console.log('Upload is paused')
                 break
               case firebase.storage.TaskState.RUNNING:
-                console.log('Upload is running')
                 break
             }
           }, function (error) {
-            console.log('no se pudo cargar' + error)
+            console.log(error)
+            self.isLoading = false
+            event.target.value = ''
+            this.$store.dispatch('snackbar', { text: '¡Hubo un problema al cargar el archivo! ¡Inténtalo de nuevo!', color: 'error' })
           }, function () {
             let fileUploaded = uploadTask.snapshot
             self.isLoading = false
+            event.target.value = ''
             self.onComplete(fileUploaded)
           })
       }

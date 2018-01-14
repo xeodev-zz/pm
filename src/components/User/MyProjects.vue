@@ -1,5 +1,5 @@
 <template>
-  <div>My projetcs</div>
+  <div>Mis Proyectos</div>
 </template>
 
 <script>

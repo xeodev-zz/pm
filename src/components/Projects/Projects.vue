@@ -1,5 +1,5 @@
 <template>
-  <div>Todos los proyecto changed Again</div>
+  <div>Todos los proyecto</div>
 </template>
 
 <script>
