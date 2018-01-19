@@ -22,8 +22,12 @@ import {
   VAvatar,
   VDialog,
   VDatePicker,
-  VSnackbar
+  VSnackbar,
+  VTabs,
+  vSwitch
 } from 'vuetify'
+import VueFire from 'vuefire'
+import SweetModal from 'sweet-modal-vue/src/plugin'
 import ImageUploader from './components/Global/ImageUploader'
 import '../node_modules/vuetify/src/stylus/app.styl'
 
@@ -32,7 +36,6 @@ import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
 import './database/db'
-
 Vue.use(Vuetify, {
   components: {
     VApp,
@@ -55,7 +58,9 @@ Vue.use(Vuetify, {
     VAvatar,
     VDialog,
     VDatePicker,
-    VSnackbar
+    VSnackbar,
+    VTabs,
+    vSwitch
   },
   theme: {
     primary: '#9c27b0',
@@ -68,6 +73,8 @@ Vue.use(Vuetify, {
   }
 })
 
+Vue.use(VueFire)
+Vue.use(SweetModal)
 Vue.component('image-uploader', ImageUploader)
 
 Vue.config.productionTip = false
