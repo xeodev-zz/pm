@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { store } from '../store/index'
-import HelloWorld from '../components/HelloWorld'
 import Signup from '../components/User/Signup'
 import Signin from '../components/User/Signin'
 import Profile from '../components/User/Profile'
 import MyProjects from '../components/User/MyProjects'
 import Projects from '../components/Projects/Projects'
+import Project from '../components/Projects/Project'
 
 Vue.use(Router)
 
 let router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      redirect: { name: 'Projects' },
       meta: {
         requiresAuth: true
       }
@@ -34,6 +34,14 @@ let router = new Router({
       path: '/proyectos',
       name: 'Projects',
       component: Projects,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/proyectos/:id',
+      name: 'Project',
+      component: Project,
       meta: {
         requiresAuth: true
       }
@@ -60,7 +68,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   let isAuth = store.state.user != null
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
+  store.dispatch('unbindFirebaseRef')
   if (requiresAuth && !isAuth) next('/login')
   else if (!requiresAuth && isAuth) next('/')
   else next()

@@ -10,7 +10,7 @@
           <v-list-tile-sub-title>{{ user.position }}</v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon :class="'green--text'">
+          <v-btn icon :class="'green--text'" :to="{name: 'Profile'}">
             <v-icon>edit</v-icon>
           </v-btn>
         </v-list-tile-action>
@@ -18,7 +18,7 @@
     </v-list>
     <v-divider></v-divider>
     <v-list>
-      <v-list-tile v-for="(item, i) in items" @click="redirectTo(item.redirectTo)" :key="i">
+      <v-list-tile v-for="(item, i) in items" :to="{name: item.redirectTo}" :key="i">
         <v-icon class="mr-2">{{ item.icon }}</v-icon>
         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
       </v-list-tile>
@@ -66,9 +66,6 @@
           this.$store.commit('setUser', null)
           this.$router.push({name: 'Signin'})
         })
-      },
-      redirectTo (route) {
-        this.$router.push({name: route})
       }
     }
   }

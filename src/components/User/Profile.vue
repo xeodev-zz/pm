@@ -180,7 +180,7 @@
       },
       uploadPhoto (photo) {
         db.ref('/users/' + this.user.uid).update({ photoURL: photo.downloadURL }).then(() => {
-          this.$store.dispatch('snackbar', { text: '¡Photo de perfil fue actualizado!' })
+          this.$store.dispatch('snackbar', { text: '¡Foto de perfil fue actualizado!' })
         })
       }
     }

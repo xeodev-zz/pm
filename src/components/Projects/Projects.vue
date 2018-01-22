@@ -8,7 +8,6 @@
             <v-layout>
               <v-flex xs12>
                 <h3 class="headline">{{ project.title }}</h3>
-                <span class="grey--text">19 de enero, 2019</span>
               </v-flex>
             </v-layout>
           </v-card-title>
@@ -17,7 +16,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn flat color="primary">{{ texts.share }}</v-btn>
-            <v-btn flat color="primary">{{ texts.seeMore }}</v-btn>
+            <v-btn flat color="primary" :to="{name: 'Project', params: {id: project['.key']}}">{{ texts.seeMore }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -31,7 +30,7 @@
   export default {
     components: { CreateProject },
     firebase: {
-      projects: db.ref('projects')
+      projects: db.ref('projects').orderByChild('order')
     },
     data () {
       return {

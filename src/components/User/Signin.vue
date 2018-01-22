@@ -57,6 +57,7 @@
 
 <script>
   import * as firebase from 'firebase'
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -98,6 +99,7 @@
             this.$store.dispatch('autoSignIn', user).then(() => {
               this.formSettings.isSubmiting = false
               this.$router.push({name: 'Projects'})
+              this.$store.dispatch('snackbar', { text: '¡Bievenido, ' + this.user.name + '!' })
             })
           })
           .catch(error => {
@@ -106,6 +108,9 @@
             this.formSettings.isSubmiting = false
           })
       }
+    },
+    computed: {
+      ...mapState(['user'])
     }
   }
 </script>

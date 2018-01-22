@@ -7,7 +7,7 @@
       </v-btn>
     </div>
     <sweet-modal :title="texts.newProject" ref="modal">
-      <v-form v-model="settings.valid" ref="form" lazy-validation @submit.prevent="onSubmit">
+      <v-form v-model="settings.formIsValid" ref="form" lazy-validation @submit.prevent="onSubmit">
         <v-layout row wrap>
           <v-flex xs12>
             <v-text-field :label="texts.title" name="np-title" v-model="form.title" :rules="rules.title" required></v-text-field>
@@ -16,7 +16,7 @@
             <v-text-field multi-line :label="texts.description" name="np-description" v-model="form.description" :rules="rules.description" required></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-switch :label="texts.isPublic" v-model="form.public" color="success" :value="true" hide-details></v-switch>
+            <v-switch :label="texts.isPublic" v-model="form.public" color="success"></v-switch>
           </v-flex>
         </v-layout>
         <v-layout row>
@@ -38,9 +38,11 @@
     data () {
       return {
         form: {
-          title: null,
-          description: null,
-          public: true
+          title: '',
+          description: '',
+          public: true,
+          order: 0,
+          timestamp: 0
         },
         originalForm: {},
         texts: {
@@ -61,6 +63,7 @@
           ]
         },
         settings: {
+          formIsValid: true,
           isSubmiting: false
         }
       }
@@ -70,14 +73,21 @@
         if (!this.$refs.form.validate()) {
           return false
         }
-
+        this.settings.isSubmiting = true
+        this.form.timestamp = Math.round(new Date() / 1000)
+        this.form.order = 0 - this.form.timestamp
         db.ref('projects').push(this.form)
-          .then(() => {
+          .then((project) => {
+            console.log(project)
+            this.settings.isSubmiting = false
             this.closeModal()
             this.cleanForm()
+            this.$store.dispatch('snackbar', { text: '¡El proyecto ' + this.form.title + ' ha sido creado!' })
+            this.$router.push({name: 'Project', params: {id: project.key}})
           })
       },
       cleanForm: function () {
+        this.$refs.form.reset()
         this.form = this.originalForm
       },
       openModal: function () {

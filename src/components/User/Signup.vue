@@ -108,7 +108,7 @@
           ]
         },
         texts: {
-          title: 'REGÍSTRATE Y FORMA PARTE DE LOS PROYECTOS DE PUENTE PIEDRA',
+          title: 'REGÍSTRATE',
           haveAccount: 'Ya tengo una cuenta.',
           signin: 'Ir al login.'
         }

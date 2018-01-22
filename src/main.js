@@ -27,7 +27,8 @@ import {
   vSwitch
 } from 'vuetify'
 import VueFire from 'vuefire'
-import SweetModal from 'sweet-modal-vue/src/plugin'
+import VueMoment from 'vue-moment'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import ImageUploader from './components/Global/ImageUploader'
 import '../node_modules/vuetify/src/stylus/app.styl'
 
@@ -72,9 +73,11 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 })
-
+require('moment/locale/es')
 Vue.use(VueFire)
-Vue.use(SweetModal)
+Vue.use(VueMoment)
+Vue.component('SweetModal', SweetModal)
+Vue.component('SweetModalTab', SweetModalTab)
 Vue.component('image-uploader', ImageUploader)
 
 Vue.config.productionTip = false
