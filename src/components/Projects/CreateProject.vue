@@ -31,8 +31,11 @@
 
 <script>
   import { db } from '../../database/db'
+  import { mapState } from 'vuex'
   export default {
     created () {
+      this.form.userID = this.user.uid
+      this.form.user = this.user
       this.originalForm = JSON.parse(JSON.stringify(this.form))
     },
     data () {
@@ -41,6 +44,8 @@
           title: '',
           description: '',
           public: true,
+          user: null,
+          userID: null,
           order: 0,
           timestamp: 0
         },
@@ -96,6 +101,9 @@
       closeModal: function () {
         this.$refs.modal.close()
       }
+    },
+    computed: {
+      ...mapState(['user'])
     }
   }
 </script>

@@ -4,7 +4,7 @@ import { store } from '../store/index'
 import Signup from '../components/User/Signup'
 import Signin from '../components/User/Signin'
 import Profile from '../components/User/Profile'
-import MyProjects from '../components/User/MyProjects'
+import MyProjects from '../components/Projects/MyProjects'
 import Projects from '../components/Projects/Projects'
 import Project from '../components/Projects/Project'
 

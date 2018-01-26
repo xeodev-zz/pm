@@ -8,13 +8,20 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import { db } from '../../database/db'
   import CreateProject from './CreateProject'
   import ProjectItem from './List/Item'
+
   export default {
     components: { CreateProject, ProjectItem },
-    firebase: {
-      projects: db.ref('projects').orderByChild('order')
+    created () {
+      console.log(this.user.uid)
+      let projectRefs = db.ref('projects').orderByChild('order')
+      this.$store.dispatch('setProjectsRef', projectRefs)
+    },
+    computed: {
+      ...mapState(['projects', 'user'])
     }
   }
 </script>

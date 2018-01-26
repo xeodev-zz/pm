@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
   state: {
     appLoader: false,
     user: null,
+    projects: [],
     project: null,
     snackbar: {
       active: false,
@@ -63,6 +64,10 @@ export const store = new Vuex.Store({
     snackbar ({commit}, payload) {
       commit('setSnackbar', payload)
     },
+    setProjectsRef: firebaseAction(({ bindFirebaseRef }, { ref }) => {
+      bindFirebaseRef('projects', ref)
+      store.commit('addVuexFireRefs', 'projects')
+    }),
     setProjectRef: firebaseAction(({ bindFirebaseRef }, { ref }) => {
       bindFirebaseRef('project', ref)
       store.commit('addVuexFireRefs', 'project')
@@ -70,7 +75,8 @@ export const store = new Vuex.Store({
     unbindFirebaseRef: firebaseAction(({ unbindFirebaseRef }) => {
       store.state.vuexfireRefs.forEach((ref) => {
         unbindFirebaseRef(ref)
-        store.commit('setAnyState', {key: ref, val: null})
+        let cleanVal = (ref.charAt(ref.length - 1) === 's') ? [] : null
+        store.commit('setAnyState', {key: ref, val: cleanVal})
       })
       store.commit('clearVuexFireRefs', [])
     })

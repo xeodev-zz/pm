@@ -18,7 +18,7 @@
     </v-list>
     <v-divider></v-divider>
     <v-list>
-      <v-list-tile v-for="(item, i) in items" :to="{name: item.redirectTo}" :key="i">
+      <v-list-tile v-for="(item, i) in items" :to="{name: item.redirectTo}" exact :key="i">
         <v-icon class="mr-2">{{ item.icon }}</v-icon>
         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
       </v-list-tile>
