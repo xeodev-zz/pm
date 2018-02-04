@@ -24,7 +24,9 @@ import {
   VDatePicker,
   VSnackbar,
   VTabs,
-  vSwitch
+  vSwitch,
+  VCheckbox,
+  VSubheader
 } from 'vuetify'
 import VueFire from 'vuefire'
 import VueMoment from 'vue-moment'
@@ -61,7 +63,9 @@ Vue.use(Vuetify, {
     VDatePicker,
     VSnackbar,
     VTabs,
-    vSwitch
+    vSwitch,
+    VCheckbox,
+    VSubheader
   },
   theme: {
     primary: '#9c27b0',

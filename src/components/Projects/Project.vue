@@ -1,6 +1,7 @@
 <template>
   <v-container grid-list-md>
     <v-layout row wrap>
+      <tasks-list></tasks-list>
       <template v-if="project != null">
         {{ project.title }}
       </template>
@@ -11,7 +12,9 @@
 <script>
   import { db } from '../../database/db'
   import { mapState } from 'vuex'
+  import TasksList from './Tasks/TasksList'
   export default {
+    components: { TasksList },
     data () {
       return {
         id: null
