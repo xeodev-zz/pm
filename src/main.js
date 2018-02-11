@@ -38,6 +38,7 @@ import App from './App'
 import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
+import utils from './utils'
 import './database/db'
 Vue.use(Vuetify, {
   components: {
@@ -83,6 +84,7 @@ Vue.use(VueMoment)
 Vue.component('SweetModal', SweetModal)
 Vue.component('SweetModalTab', SweetModalTab)
 Vue.component('image-uploader', ImageUploader)
+window.utils = utils
 
 Vue.config.productionTip = false
 

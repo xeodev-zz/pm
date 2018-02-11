@@ -1,10 +1,15 @@
 <template>
   <v-container grid-list-md>
-    <v-layout row wrap>
-      <tasks-list></tasks-list>
-      <template v-if="project != null">
-        {{ project.title }}
-      </template>
+    <v-layout row wrap v-if="project != null">
+      <v-flex xs12>{{ project.title }}</v-flex>
+      <v-flex xs12 md7>
+        <v-layout row wrap>
+          <tasks-list v-for="category in categories" :category="category" :key="category.handle"></tasks-list>
+        </v-layout>
+      </v-flex>
+      <v-flex xs12 md5>
+        <router-view></router-view>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -17,6 +22,20 @@
     components: { TasksList },
     data () {
       return {
+        categories: [
+          {
+            title: 'Por hacer',
+            handle: 'todo'
+          },
+          {
+            title: 'Haciendo',
+            handle: 'doing'
+          },
+          {
+            title: 'Hecho',
+            handle: 'done'
+          }
+        ],
         id: null
       }
     },

@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
     user: null,
     projects: [],
     project: null,
+    task: null,
     snackbar: {
       active: false,
       y: 'top',
@@ -71,6 +72,10 @@ export const store = new Vuex.Store({
     setProjectRef: firebaseAction(({ bindFirebaseRef }, { ref }) => {
       bindFirebaseRef('project', ref)
       store.commit('addVuexFireRefs', 'project')
+    }),
+    setTaskRef: firebaseAction(({ bindFirebaseRef }, { ref }) => {
+      bindFirebaseRef('task', ref)
+      store.commit('addVuexFireRefs', 'task')
     }),
     unbindFirebaseRef: firebaseAction(({ unbindFirebaseRef }) => {
       store.state.vuexfireRefs.forEach((ref) => {

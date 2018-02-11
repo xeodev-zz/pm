@@ -7,6 +7,7 @@ import Profile from '../components/User/Profile'
 import MyProjects from '../components/Projects/MyProjects'
 import Projects from '../components/Projects/Projects'
 import Project from '../components/Projects/Project'
+import Task from '../components/Projects/Tasks/Task'
 
 Vue.use(Router)
 
@@ -42,6 +43,13 @@ let router = new Router({
       path: '/proyectos/:id',
       name: 'Project',
       component: Project,
+      children: [
+        {
+          path: 'tarea/:task_key',
+          name: 'Task',
+          component: Task
+        }
+      ],
       meta: {
         requiresAuth: true
       }
@@ -68,7 +76,9 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   let isAuth = store.state.user != null
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  store.dispatch('unbindFirebaseRef')
+  if (!(from.name === 'Task' && to.name === 'Task') && !(from.name === 'Task' && to.name === 'Project') && !(from.name === 'Project' && to.name === 'Task')) {
+    store.dispatch('unbindFirebaseRef')
+  }
   if (requiresAuth && !isAuth) next('/login')
   else if (!requiresAuth && isAuth) next('/')
   else next()

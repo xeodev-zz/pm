@@ -1,106 +1,66 @@
 <template>
-  <v-layout row>
-    <v-flex xs12 md8>
-      <v-layout row>
-        <v-flex xs12 md4 v-for="category in categories" :key="category.handle">
-          <v-card>
-            <v-card-title class="primary white--text">
-              <span>{{ category.title }}</span>
-              <v-spacer></v-spacer>
-              <v-btn icon small class="my-0" dark @click="toggleTaskForm">
-                <v-icon>add</v-icon>
-              </v-btn>
-              <v-menu bottom left>
-                <v-btn icon small class="my-0" slot="activator" dark>
-                  <v-icon>more_vert</v-icon>
-                </v-btn>
-                <v-list>
-                  <v-list-tile v-for="(item, i) in items" :key="i" @click="">
-                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
-              <create-task v-show="showTaskForm" @toggleTaskForm="toggleTaskForm"></create-task>
-            </v-card-title>
-            <v-card-text class="pa-0">
-              <v-list two-line class="py-0">
-                <v-list-tile avatar ripple>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="notifications" color="primary"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-sub-title>Allow notifications</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-divider></v-divider>
-                <v-list-tile avatar ripple>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="sound" color="primary"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-sub-title>Hangouts message</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-divider></v-divider>
-                <v-list-tile avatar ripple>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="video" color="primary"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-sub-title>Hangouts video call</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-divider></v-divider>
-                <v-list-tile avatar ripple>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="invites" color="primary"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-sub-title>Notify when receiving invites</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+  <v-flex xs12 md4>
+    <v-card>
+      <v-card-title class="primary white--text">
+        <span>{{ category.title }}</span>
+        <v-spacer></v-spacer>
+        <v-btn icon small class="my-0" dark @click="toggleTaskForm">
+          <v-icon>{{ activatorIcon }}</v-icon>
+        </v-btn>
+        <v-menu bottom left>
+          <v-btn icon small class="my-0" slot="activator" dark>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile v-for="(item, i) in items" :key="i" @click="">
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+        <create-task v-show="showTaskForm" :category="category" @toggleTaskForm="toggleTaskForm"></create-task>
+      </v-card-title>
+      <v-card-text class="pa-0">
+        <v-list two-line class="py-0">
+          <template v-for="task in tasksFiltered">
+            <task-list-item :task="task"></task-list-item>
+            <v-divider></v-divider>
+          </template>
+        </v-list>
+      </v-card-text>
+    </v-card>
+  </v-flex>
 </template>
 
 <script>
   import CreateTask from './CreateTask'
+  import TaskListItem from './TaskListItem'
+  import { mapState } from 'vuex'
 
   export default {
-    components: { CreateTask },
+    components: { CreateTask, TaskListItem },
+    props: ['category'],
     data: () => ({
-      categories: [
-        {
-          title: 'Por hacer',
-          handle: 'todo'
-        },
-        {
-          title: 'Haciendo',
-          handle: 'doing'
-        },
-        {
-          title: 'Hecho',
-          handle: 'done'
-        }
-      ],
       items: [
         { title: 'Marcar todos' },
         { title: 'Eliminar todos' }
       ],
-      showTaskForm: false,
-      notifications: false,
-      sound: false,
-      video: false,
-      invites: false
+      showTaskForm: false
     }),
     methods: {
       toggleTaskForm: function () {
         this.showTaskForm = !this.showTaskForm
+      }
+    },
+    computed: {
+      ...mapState(['project']),
+      tasksFiltered: function () {
+        let tasks = window.utils.fireParserArray(this.project.tasks)
+        return tasks.filter((task) => {
+          return task.category === this.category.title
+        })
+      },
+      activatorIcon: function () {
+        return this.showTaskForm ? 'remove' : 'add'
       }
     }
   }
