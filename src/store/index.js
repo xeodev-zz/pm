@@ -79,7 +79,7 @@ export const store = new Vuex.Store({
     }),
     unbindFirebaseRef: firebaseAction(({ unbindFirebaseRef }) => {
       store.state.vuexfireRefs.forEach((ref) => {
-        unbindFirebaseRef(ref)
+        try { unbindFirebaseRef(ref) } catch (error) {}
         let cleanVal = (ref.charAt(ref.length - 1) === 's') ? [] : null
         store.commit('setAnyState', {key: ref, val: cleanVal})
       })
