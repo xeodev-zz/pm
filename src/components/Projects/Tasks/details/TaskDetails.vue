@@ -42,7 +42,7 @@
         this.toggleEditDescription()
         if (this.task.description === this.fakers.description) return
         db.ref('/projects/' + this.project['.key'] + '/tasks/' + this.task['.key'] + '/description').set(this.fakers.description).then(() => {
-          this.$store.dispatch('snackbar', { text: '¡La descripcion de la tarea ha sido realizada!' })
+          this.$store.dispatch('snackbar', { text: '¡La descripcion de la tarea ha sido actualizada!' })
         })
       }
     },
