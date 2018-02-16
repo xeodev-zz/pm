@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md>
+  <v-container fluid grid-list-md>
     <v-layout row wrap v-if="project != null">
       <v-flex xs12>{{ project.title }}</v-flex>
       <v-flex xs12 md7>

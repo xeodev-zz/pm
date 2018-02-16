@@ -33,6 +33,7 @@ import VueMoment from 'vue-moment'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import ImageUploader from './components/Global/ImageUploader'
 import '../node_modules/vuetify/src/stylus/app.styl'
+import './styles/custom.styl'
 
 import App from './App'
 import * as firebase from 'firebase'

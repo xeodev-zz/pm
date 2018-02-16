@@ -1,9 +1,9 @@
 <template>
-  <v-card>
+  <v-card class="task_content">
     <loader v-if="task == null"></loader>
     <template v-else>
       <v-layout class="pl-3 pt-3 mx-0">
-        <v-checkbox v-model="task.done" hide-details color="primary" class="shrink mr-2"></v-checkbox>
+        <v-checkbox v-model="isDone" hide-details color="primary" class="shrink mr-2"></v-checkbox>
         <div>
           <div class="headline">{{ task.title }}</div>
           <div class="grey--text">1,000 miles of wonder</div>
@@ -20,10 +20,10 @@
           <v-icon class="primary--text">mode_comment</v-icon>
         </v-tab>
         <v-tab-item id="tab-1">
-          <task-details :task="task"></task-details>
+          <task-details></task-details>
         </v-tab-item>
         <v-tab-item id="tab-2">
-          <task-comments :task="task"></task-comments>
+          <task-comments></task-comments>
         </v-tab-item>
       </v-tabs>
     </template>
@@ -58,7 +58,17 @@
       }
     },
     computed: {
-      ...mapState(['project', 'task'])
+      ...mapState(['project', 'task']),
+      isDone: {
+        get: function () {
+          return this.task.done
+        },
+        set: function (taskDone) {
+          db.ref('/projects/' + this.project['.key'] + '/tasks/' + this.task['.key'] + '/done').set(taskDone).then(() => {
+            if (taskDone) this.$store.dispatch('snackbar', { text: '¡La tarea ha sido realizada!' })
+          })
+        }
+      }
     },
     watch: {
       '$route' (to, from) {
